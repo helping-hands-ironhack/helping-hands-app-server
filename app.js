@@ -23,11 +23,3 @@ app.use("/api", allRoutes);
 require("./error-handling")(app);
 
 module.exports = app;
-
-//comment
-// comment comment comment
-
-
-const one = 1;
-
-//comment 
