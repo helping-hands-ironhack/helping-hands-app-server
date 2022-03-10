@@ -20,13 +20,11 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 
-<<<<<<< HEAD
-const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authRoutes);
-=======
-const pax = require("./routes/pax.routes")
-app.use("api/pax", paxRouter)
->>>>>>> cc9f0962921ff75a5fab03c20a58da03409fdc9b
+const paxRoutes = require("./routes/pax.routes");
+app.use("api/pax", paxRoutes);
+
+const ngoRoutes = require("./routes/ngo.routes");
+app.use("api/ngo", ngoRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
