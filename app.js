@@ -5,6 +5,7 @@ require("dotenv/config");
 // ℹ️ Connects to the database
 require("./db");
 
+const { application } = require("express");
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
@@ -19,8 +20,13 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 
+<<<<<<< HEAD
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
+=======
+const pax = require("./routes/pax.routes")
+app.use("api/pax", paxRouter)
+>>>>>>> cc9f0962921ff75a5fab03c20a58da03409fdc9b
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
