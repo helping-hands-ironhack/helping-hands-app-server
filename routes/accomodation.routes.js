@@ -26,3 +26,5 @@ router.put("/:accomodationId", (req, res) => {
         .then((updatedAccomodation) => res.json(updatedAccomodation))
         .catch((err) => res.json(err));
 });
+
+module.exports = router;
