@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
@@ -132,11 +133,26 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
-        Session.create({ user: user._id, createdAt: Date.now() }).then(
-          (session) => {
-            return res.json({ user, accessToken: session._id });
-          }
-        );
+        else {
+          const { _id, email, name } = foundUser;
+
+          const payload = { _id, email, name };
+
+          const authToken = jwt.sign(
+            payload,
+            process.env.TOKEN_SECRET,
+            { algorithm: 'HS256', expiresIn: "6h" }
+          );
+
+          res.status(200).json({ authToken: authToken });
+
+        }
+
+        // Session.create({ user: user._id, createdAt: Date.now() }).then(
+        //   (session) => {
+        //     return res.json({ user, accessToken: session._id });
+        //   }
+        // );
       });
     })
 
@@ -147,6 +163,18 @@ router.post("/login", isLoggedOut, (req, res, next) => {
       // return res.status(500).render("login", { errorMessage: err.message });
     });
 });
+
+router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
+ 
+  // If JWT token is valid the payload gets decoded by the
+  // isAuthenticated middleware and made available on `req.payload`
+  console.log(`req.payload`, req.payload);
+ 
+  // Send back the object with user data
+  // previously set as the token payload
+  res.status(200).json(req.payload);
+});
+ 
 
 router.delete("/logout", isLoggedIn, (req, res) => {
   Session.findByIdAndDelete(req.headers.authorization)
