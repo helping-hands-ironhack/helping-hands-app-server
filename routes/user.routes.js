@@ -1,0 +1,44 @@
+const express = require("express");
+const router = express.Router();
+const mongoose = require("mongoose");
+
+const User = require("../models/User.model");
+const Accommodation = require("../models/Accommodation.model");
+
+router.get("/users", (req, res, next) => {
+    User.find()
+        .populate("accomodations")
+        .then((allUsers) => res.json(allUsers))
+        .catch((err) => res.json(err));
+});
+
+router.get("/users/:userId", (req, res, next) => {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        res.status(400).json({ message: "Specified id is not valid" });
+        return;
+      }
+    
+    User.findById(userId)
+      .populate("accomodations")
+      .then((user) => res.status(200).json(user))
+      .catch((err) => res.json(err));
+});
+
+router.put("/users/:userId", (req, res, next) => {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        res.status(400).json({ message: "Specified id is not valid" });
+        return;
+      }
+    
+    Project.findByIdAndUpdate(userId, req.body, { new: true })
+      .then((updatedUser) => res.json(updatedUser))
+      .catch((err) => res.json(err));
+});
+
+
+
+module.exports = router;
