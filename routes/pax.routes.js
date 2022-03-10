@@ -25,3 +25,5 @@ router.delete("/:paxId", (req, res) => {
         .then((deletedPax) => res.json(deletedPax))
         .catch((error) => console.log(error))
 });
+
+module.exports = router;

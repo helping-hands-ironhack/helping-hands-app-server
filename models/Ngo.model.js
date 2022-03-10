@@ -2,9 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const ngoSchema = new Schema(
     {
-        name: { type: string, required: true },
-        email: { type: string, required: true },
-        cif: { type: string, required: true },
+        name: { type: String, required: true },
+        email: { type: String, required: true },
+        cif: { type: String, required: true },
+        password: { type: String, required: true },
         paxToHost: { type: Schema.Types.ObjectId, ref: 'Pax' }
     },
     {

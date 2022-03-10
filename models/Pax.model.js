@@ -2,8 +2,8 @@ const { Schema, model } = require("mongoose");
 
 const paxSchema = new Schema(
     {
-        adults: { type: number },
-        children: { type: number },
+        adults: { type: Number },
+        children: { type: Number },
         ngo: { type: Schema.Types.ObjectId, ref: 'Ngo' }
     },
     {
