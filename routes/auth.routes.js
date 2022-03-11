@@ -140,7 +140,9 @@ router.post("/login", (req, res, next) => {
               else {
                 const { _id, email, firstName } = ngo;
 
-                const payload = { _id, email, firstName };
+                const isNgo = true
+
+                const payload = { _id, email, firstName, isNgo };
 
                 const authToken = jwt.sign(
                   payload,
