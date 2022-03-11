@@ -140,9 +140,9 @@ router.post("/login", (req, res, next) => {
               else {
                 const { _id, email, firstName } = ngo;
 
-                const isNgo = true
+                const userType = "ngo"
 
-                const payload = { _id, email, firstName, isNgo };
+                const payload = { _id, email, firstName, userType };
 
                 const authToken = jwt.sign(
                   payload,
@@ -171,7 +171,9 @@ router.post("/login", (req, res, next) => {
           else {
             const { _id, email, firstName } = user;
 
-            const payload = { _id, email, firstName };
+            const userType = "host"
+
+            const payload = { _id, email, firstName, userType };
 
             const authToken = jwt.sign(
               payload,
