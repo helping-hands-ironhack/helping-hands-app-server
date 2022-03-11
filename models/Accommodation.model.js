@@ -8,8 +8,8 @@ const accommodationSchema = new Schema(
         description: { type: string, required: true },
         owner: { type: Schema.Types.ObjectId, ref: 'User' },
         resquests: [{ type: Schema.Types.ObjectId, ref: 'Pax' }],
-        isHosting: { type: boolean, required: true },
-        currentGuests: { type: Schema.Types.ObjectId, ref: 'Pax' }
+        isHosting: { type: boolean, required: true, default: false },
+        currentGuests: [{ type: Schema.Types.ObjectId, ref: 'Pax' }]
     },
     {
         timestamps: true,
