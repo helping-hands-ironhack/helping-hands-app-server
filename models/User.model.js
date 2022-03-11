@@ -6,7 +6,8 @@ const userSchema = new Schema(
     lastName: {type: String, required:true},
     password: {type: String, required: true},
     email: {type: String, required:true},
-    accommodations: [{type: Schema.Types.ObjectId, ref:'Accommodation'}]
+    accommodations: [{type: Schema.Types.ObjectId, ref:'Accommodation'}],
+    iisNgo: {type: Boolean, default: false}
   },
   {
     timestamps: true,
