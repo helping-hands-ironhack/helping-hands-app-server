@@ -11,12 +11,13 @@ const saltRounds = 10;
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
 const Session = require("../models/Session.model");
+const Ngo = require("../models/Ngo.model")
 
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const isAuthenticated = require("../middleware/jwt.middleware")
+const isAuthenticated = require("../middleware/jwt.middleware");
 
 router.get("/session", (req, res) => {
   // we dont want to throw an error, and just maintain the user as null
@@ -126,35 +127,67 @@ router.post("/login", (req, res, next) => {
 
   User.findOne({ email })
     .then((user) => {
-      if (!email) {
-        return res.status(400).json({ errorMessage: "Wrong credentials." });
+      if (!user) {
+        Ngo.findOne({ email })
+          .then((ngo) => {
+            if (!email) {
+              return res.status(400).json({ errorMessage: "Wrong credentials." })
+            }
+            bcrypt.compare(password, ngo.password).then((isSamePassword) => {
+              if (!isSamePassword) {
+                return res.status(400).json({ errorMessage: "Wrong password." });
+              }
+              else {
+                const { _id, email, firstName } = ngo;
+
+                const payload = { _id, email, firstName };
+
+                const authToken = jwt.sign(
+                  payload,
+                  process.env.TOKEN_SECRET,
+                  { algorithm: 'HS256', expiresIn: "6h" }
+                );
+
+                res.status(200).json({ authToken: authToken });
+
+              }
+
+              // Session.create({ user: user._id, createdAt: Date.now() }).then(
+              //   (session) => {
+              //     return res.json({ user, accessToken: session._id });
+              //   }
+              // );
+            });
+          })
       }
 
-      bcrypt.compare(password, user.password).then((isSamePassword) => {
-        if (!isSamePassword) {
-          return res.status(400).json({ errorMessage: "Wrong password." });
-        }
-        else {
-          const { _id, email, firstName } = user;
+      else {
+        bcrypt.compare(password, user.password).then((isSamePassword) => {
+          if (!isSamePassword) {
+            return res.status(400).json({ errorMessage: "Wrong password." });
+          }
+          else {
+            const { _id, email, firstName } = user;
 
-          const payload = { _id, email, firstName };
+            const payload = { _id, email, firstName };
 
-          const authToken = jwt.sign(
-            payload,
-            process.env.TOKEN_SECRET,
-            { algorithm: 'HS256', expiresIn: "6h" }
-          );
+            const authToken = jwt.sign(
+              payload,
+              process.env.TOKEN_SECRET,
+              { algorithm: 'HS256', expiresIn: "6h" }
+            );
 
-          res.status(200).json({ authToken: authToken });
+            res.status(200).json({ authToken: authToken });
 
-        }
+          }
 
-        // Session.create({ user: user._id, createdAt: Date.now() }).then(
-        //   (session) => {
-        //     return res.json({ user, accessToken: session._id });
-        //   }
-        // );
-      });
+          // Session.create({ user: user._id, createdAt: Date.now() }).then(
+          //   (session) => {
+          //     return res.json({ user, accessToken: session._id });
+          //   }
+          // );
+        })
+      };
     })
 
     .catch((err) => {
@@ -166,16 +199,16 @@ router.post("/login", (req, res, next) => {
 });
 
 // router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
- 
+
 //   // If JWT token is valid the payload gets decoded by the
 //   // isAuthenticated middleware and made available on `req.payload`
 //   console.log(`req.payload`, req.payload);
- 
+
 //   // Send back the object with user data
 //   // previously set as the token payload
 //   res.status(200).json(req.payload);
 // });
- 
+
 
 router.delete("/logout", isLoggedIn, (req, res) => {
   Session.findByIdAndDelete(req.headers.authorization)

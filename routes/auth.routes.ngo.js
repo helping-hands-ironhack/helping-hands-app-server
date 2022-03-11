@@ -13,7 +13,7 @@ const Ngo = require("../models/Ngo.model")
 const isAuthenticated = require("../middleware/jwt.middleware")
 
 
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("/signup", (req, res) => {
   const { password, name, cif, email } = req.body;
 
   if (!email) {
@@ -129,7 +129,7 @@ router.post("/login", (req, res, next) => {
 // });
  
 
-router.delete("/logout", isLoggedIn, (req, res) => {
+router.delete("/logout", (req, res) => {
   Session.findByIdAndDelete(req.headers.authorization)
     .then(() => {
       res.status(200).json({ message: "User was logged out" });
