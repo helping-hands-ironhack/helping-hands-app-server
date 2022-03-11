@@ -138,11 +138,9 @@ router.post("/login", (req, res, next) => {
                 return res.status(400).json({ errorMessage: "Wrong password." });
               }
               else {
-                const { _id, email, firstName } = ngo;
+                const { _id, email, firstName, isNgo } = ngo;
 
-                const userType = "ngo"
-
-                const payload = { _id, email, firstName, userType };
+                const payload = { _id, email, firstName, isNgo};
 
                 const authToken = jwt.sign(
                   payload,
@@ -169,11 +167,9 @@ router.post("/login", (req, res, next) => {
             return res.status(400).json({ errorMessage: "Wrong password." });
           }
           else {
-            const { _id, email, firstName } = user;
+            const { _id, email, firstName, isNgo } = user;
 
-            const userType = "host"
-
-            const payload = { _id, email, firstName, userType };
+            const payload = { _id, email, firstName, isNgo };
 
             const authToken = jwt.sign(
               payload,
