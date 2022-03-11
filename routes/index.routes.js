@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const authRoutes = require("./auth.routes");
+const authNgoRoutes = require("./ngo.routes")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -7,5 +8,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.use("/auth", authRoutes);
+
+router.use("/auth/ngo", authNgoRoutes)
 
 module.exports = router;
