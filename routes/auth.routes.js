@@ -16,6 +16,8 @@ const Session = require("../models/Session.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+const isAuthenticated = require("../middleware/jwt.middleware")
+
 router.get("/session", (req, res) => {
   // we dont want to throw an error, and just maintain the user as null
   if (!req.headers.authorization) {
@@ -36,9 +38,9 @@ router.get("/session", (req, res) => {
 });
 
 router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password } = req.body;
+  const { password, firstName, lastName, email } = req.body;
 
-  if (!username) {
+  if (!email) {
     return res
       .status(400)
       .json({ errorMessage: "Please provide your username." });
@@ -63,10 +65,10 @@ router.post("/signup", isLoggedOut, (req, res) => {
   */
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username }).then((found) => {
+  User.findOne({ email }).then((found) => {
     // If the user is found, send the message username is taken
     if (found) {
-      return res.status(400).json({ errorMessage: "Username already taken." });
+      return res.status(400).json({ errorMessage: "Email already taken." });
     }
 
     // if user is not found, create a new user - start with hashing the password
@@ -76,8 +78,10 @@ router.post("/signup", isLoggedOut, (req, res) => {
       .then((hashedPassword) => {
         // Create a user and save it in the database
         return User.create({
-          username,
           password: hashedPassword,
+          lastName: lastName,
+          firstName: firstName,
+          email: email,
         });
       })
       .then((user) => {
@@ -103,13 +107,13 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
-  const { username, password } = req.body;
+router.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
 
-  if (!username) {
+  if (!email) {
     return res
       .status(400)
-      .json({ errorMessage: "Please provide your username." });
+      .json({ errorMessage: "Please provide your email." })
   }
 
   // Here we use the same logic as above
@@ -120,23 +124,20 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
   }
 
-  // Search the database for a user with the username submitted in the form
-  User.findOne({ username })
+  User.findOne({ email })
     .then((user) => {
-      // If the user isn't found, send the message that user provided wrong credentials
-      if (!user) {
+      if (!email) {
         return res.status(400).json({ errorMessage: "Wrong credentials." });
       }
 
-      // If user is found based on the username, check if the in putted password matches the one saved in the database
       bcrypt.compare(password, user.password).then((isSamePassword) => {
         if (!isSamePassword) {
-          return res.status(400).json({ errorMessage: "Wrong credentials." });
+          return res.status(400).json({ errorMessage: "Wrong password." });
         }
         else {
-          const { _id, email, name } = foundUser;
+          const { _id, email, firstName } = user;
 
-          const payload = { _id, email, name };
+          const payload = { _id, email, firstName };
 
           const authToken = jwt.sign(
             payload,
@@ -164,16 +165,16 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
-router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
+// router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
  
-  // If JWT token is valid the payload gets decoded by the
-  // isAuthenticated middleware and made available on `req.payload`
-  console.log(`req.payload`, req.payload);
+//   // If JWT token is valid the payload gets decoded by the
+//   // isAuthenticated middleware and made available on `req.payload`
+//   console.log(`req.payload`, req.payload);
  
-  // Send back the object with user data
-  // previously set as the token payload
-  res.status(200).json(req.payload);
-});
+//   // Send back the object with user data
+//   // previously set as the token payload
+//   res.status(200).json(req.payload);
+// });
  
 
 router.delete("/logout", isLoggedIn, (req, res) => {
@@ -182,7 +183,6 @@ router.delete("/logout", isLoggedIn, (req, res) => {
       res.status(200).json({ message: "User was logged out" });
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ errorMessage: err.message });
     });
 });
