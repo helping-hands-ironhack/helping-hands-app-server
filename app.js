@@ -29,6 +29,9 @@ app.use("api/ngo", ngoRoutes);
 const userRoutes = require("./routes/user.routes")
 app.use("/api", userRoutes)
 
+const accommodationRoutes = require("./routes/accommodation.routes")
+app.use("/api/accommodations", accommodationRoutes)
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
