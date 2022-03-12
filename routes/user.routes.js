@@ -7,7 +7,7 @@ const Accommodation = require("../models/Accommodation.model");
 
 router.get("/users", (req, res, next) => {
   User.find()
-    .populate("accomodations")
+    .populate("accommodations")
     .then((allUsers) => res.json(allUsers))
     .catch((err) => res.json(err));
 });
@@ -21,6 +21,7 @@ router.get("/users/:userId", (req, res, next) => {
   }
 
   User.findById(userId)
+    .populate("accommodations")
     .then((user) => {
       console.log(user);
       res.status(200).json(user)
