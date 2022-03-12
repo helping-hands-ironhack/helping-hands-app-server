@@ -6,6 +6,13 @@ const mongoose = require('mongoose');
 
 router.get("/:accommodationId", (req, res) => {
     Accommodation.findById(req.params.accommodationId)
+        .populate("owner")
+        .then((accommodation) => res.json(accommodation))
+        .catch((err) => res.json(err));
+});
+
+router.delete("/:accommodationId", (req, res) => {
+    Accommodation.findByIdAndDelete(req.params.accommodationId)
         .then((accommodation) => res.json(accommodation))
         .catch((err) => res.json(err));
 });
