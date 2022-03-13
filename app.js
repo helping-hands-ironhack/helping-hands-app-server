@@ -21,10 +21,10 @@ const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 
 const paxRoutes = require("./routes/pax.routes");
-app.use("api/pax", paxRoutes);
+app.use("/api/pax", paxRoutes);
 
 const ngoRoutes = require("./routes/ngo.routes");
-app.use("api/ngo", ngoRoutes);
+app.use("/api/ngo", ngoRoutes);
 
 const userRoutes = require("./routes/user.routes")
 app.use("/api", userRoutes)
