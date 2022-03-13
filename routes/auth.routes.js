@@ -17,7 +17,7 @@ const Ngo = require("../models/Ngo.model")
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const isAuthenticated = require("../middleware/jwt.middleware");
+const {isAuthenticated} = require("../middleware/jwt.middleware");
 
 router.get("/session", (req, res) => {
   // we dont want to throw an error, and just maintain the user as null
@@ -138,11 +138,11 @@ router.post("/login", (req, res, next) => {
                 return res.status(400).json({ errorMessage: "Wrong password." });
               }
               else {
-                const { _id, email, firstName } = ngo;
+                const { _id, email, firstName, isNgo } = ngo;
 
-                const isNgo = true
-
+                
                 const payload = { _id, email, firstName, isNgo };
+
 
                 const authToken = jwt.sign(
                   payload,
@@ -169,9 +169,9 @@ router.post("/login", (req, res, next) => {
             return res.status(400).json({ errorMessage: "Wrong password." });
           }
           else {
-            const { _id, email, firstName } = user;
+            const { _id, email, firstName, isNgo } = user;
 
-            const payload = { _id, email, firstName };
+            const payload = { _id, email, firstName, isNgo };
 
             const authToken = jwt.sign(
               payload,
@@ -200,16 +200,15 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-// router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
+router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE NEW ROUTE
 
-//   // If JWT token is valid the payload gets decoded by the
-//   // isAuthenticated middleware and made available on `req.payload`
-//   console.log(`req.payload`, req.payload);
+  // If JWT token is valid the payload gets decoded by the
+  // isAuthenticated middleware and made available on `req.payload`
 
-//   // Send back the object with user data
-//   // previously set as the token payload
-//   res.status(200).json(req.payload);
-// });
+  // Send back the object with user data
+  // previously set as the token payload
+  res.status(200).json(req.payload);
+});
 
 
 router.delete("/logout", isLoggedIn, (req, res) => {
