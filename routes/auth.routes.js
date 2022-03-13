@@ -169,9 +169,9 @@ router.post("/login", (req, res, next) => {
             return res.status(400).json({ errorMessage: "Wrong password." });
           }
           else {
-            const { _id, email, firstName, isNgo } = user;
+            const { _id, email, firstName, lastName, isNgo } = user;
 
-            const payload = { _id, email, firstName, isNgo };
+            const payload = { _id, email, firstName, lastName, isNgo };
 
             const authToken = jwt.sign(
               payload,
