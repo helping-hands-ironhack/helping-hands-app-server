@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:ngoId", (req, res) => {
-    Ngo.findById(params.ngoId)
+    Ngo.findById(req.params.ngoId)
         .then(ngo => res.json(ngo))
         .catch((error) => console.log(error))
 });
