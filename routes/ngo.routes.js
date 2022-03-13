@@ -6,7 +6,7 @@ const Pax = require("../models/Pax.model");
 
  router.get("/", (req, res) => {
     Ngo.find()
-        .populate("pax")
+        .populate("paxToHost")
         .then(allNgo => res.json(allNgo))
         .catch((error) => console.log(error))
 });
@@ -19,7 +19,7 @@ router.post("/", (req, res) => {
 
 router.get("/:ngoId", (req, res) => {
     Ngo.findById(req.params.ngoId)
-        .populate("pax")
+        .populate("paxToHost")
         .then(ngo => res.json(ngo))
         .catch((error) => console.log(error))
 });
