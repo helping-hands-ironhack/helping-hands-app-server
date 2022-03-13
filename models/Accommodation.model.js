@@ -9,7 +9,7 @@ const accommodationSchema = new Schema(
         resquests: [{ type: Schema.Types.ObjectId, ref: 'Pax' }],
         isHosting: { type: Boolean, default: false },
         currentGuests: [{ type: Schema.Types.ObjectId, ref: 'Pax' }],
-        picture: {type:String, default: "https://cdn.pixabay.com/photo/2017/07/11/00/24/house-2492054_960_720.png"}
+        imageUrl: {type:String, default: "https://cdn.pixabay.com/photo/2017/07/11/00/24/house-2492054_960_720.png"}
     },
     {
         timestamps: true,
