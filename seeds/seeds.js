@@ -10,7 +10,7 @@ const paxes = [
     { adults: 3, children: 4 }
 ]
 
-const ngos = [
+const ngo = [
     {
         name: "Manos Unidas",
         email: "mnsnds@hands.com",
@@ -26,8 +26,8 @@ Pax.create(paxes)
     })
     .catch((err) => console.log("Error creating pax", err));
 
-Ngo.create(ngos)
-    .then(ngosOnDb => {
-        console.log(`We have created ${ngosOnDb.length} ngos`);
+Ngo.create(ngo)
+    .then(ngoOnDb => {
+        console.log(`We have created ${ngoOnDb.length} ngo`);
     })
     .catch((err) => console.log("Error creating pax", err));
