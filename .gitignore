@@ -6,4 +6,9 @@ npm-debug.log
 
 # Environment Variables should NEVER be published
 .env
+<<<<<<< HEAD
+
 .vscode
+=======
+.vscode
+>>>>>>> cc9f0962921ff75a5fab03c20a58da03409fdc9b

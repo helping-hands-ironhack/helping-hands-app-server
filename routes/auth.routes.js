@@ -143,6 +143,7 @@ router.post("/login", (req, res, next) => {
                 
                 const payload = { _id, email, firstName, isNgo };
 
+
                 const authToken = jwt.sign(
                   payload,
                   process.env.TOKEN_SECRET,
