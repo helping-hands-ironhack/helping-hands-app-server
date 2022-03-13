@@ -4,6 +4,8 @@ const Accommodation = require("../models/Accommodation.model");
 const User = require("../models/User.model")
 const mongoose = require('mongoose');
 
+const fileUploader = require("../config/cloudinary.config")
+
 router.get("/:accommodationId", (req, res) => {
     Accommodation.findById(req.params.accommodationId)
         .populate("owner")
@@ -24,19 +26,22 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/new/:userId/", (req, res, next) => {
-    const { capacity, description, rooms } = req.body
+    const { capacity, description, rooms, imageUrl} = req.body
+
+
     Accommodation.create({
         rooms: rooms,
         capacity: capacity,
         description: description,
-        owner: req.params.userId
+        owner: req.params.userId,
+        imageUrl: imageUrl
     })
         .then((newAccommodation) => {
             User.findByIdAndUpdate(
                 { _id: req.params.userId },
                 { $push: { accommodations: newAccommodation._id } }
             )
-            .catch((err) => res.json(err))
+                .catch((err) => res.json(err))
         })
         .then((newaccommodation) => res.json(newaccommodation))
         .catch((err) => res.json(err));
