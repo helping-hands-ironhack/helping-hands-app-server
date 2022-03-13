@@ -9,7 +9,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:paxId", (req, res) => {
-    Pax.findById(params.paxId)
+    Pax.findById(req.params.paxId)
         .then(pax => res.json(pax))
         .catch((error) => console.log(error))
 });

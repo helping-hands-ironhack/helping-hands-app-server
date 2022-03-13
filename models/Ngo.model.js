@@ -6,7 +6,7 @@ const ngoSchema = new Schema(
         email: { type: String, required: true },
         cif: { type: String, required: true },
         password: { type: String, required: true },
-        paxToHost: { type: Schema.Types.ObjectId, ref: 'Pax' },
+        paxToHost: [{ type: Schema.Types.ObjectId, ref: 'Pax' }],
         isNgo: {type: Boolean, default: true}
     },
     {
