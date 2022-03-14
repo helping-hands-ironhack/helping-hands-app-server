@@ -130,7 +130,7 @@ router.post("/login", (req, res, next) => {
       if (!user) {
         Ngo.findOne({ email })
           .then((ngo) => {
-            if (!email) {
+            if (!ngo) {
               return res.status(400).json({ errorMessage: "Wrong credentials." })
             }
             bcrypt.compare(password, ngo.password).then((isSamePassword) => {
