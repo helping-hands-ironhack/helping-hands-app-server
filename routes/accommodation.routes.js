@@ -4,7 +4,8 @@ const Accommodation = require("../models/Accommodation.model");
 const User = require("../models/User.model")
 const mongoose = require('mongoose');
 
-const fileUploader = require("../config/cloudinary.config")
+const fileUploader = require("../config/cloudinary.config");
+const Pax = require("../models/Pax.model");
 
 router.get("/:accommodationId", (req, res) => {
     Accommodation.findById(req.params.accommodationId)
@@ -27,10 +28,17 @@ router.get("/", (req, res, next) => {
 
 router.put("/:accommodationId/push-request/:paxId", (req, res) => {
     Accommodation.findByIdAndUpdate(
-        { _id: req.params.accommodationId },
-        { $push: {requests: req.params.paxId } }
+        req.params.accommodationId,
+        { $push: { requests: req.params.paxId } },
+        { new: true }
     )
-        .then((results) => res.json(results))
+        .then((results) => {
+            Pax.findByIdAndUpdate(req.params.paxId, {
+                $set: { isRequested: true }
+            })
+                .then(__ => res.json(results))
+                
+        })
         .catch((err) => res.json(err))
 })
 
