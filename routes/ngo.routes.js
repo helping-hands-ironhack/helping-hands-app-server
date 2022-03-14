@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const Ngo = require("../models/Ngo.model");
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
     Ngo.find()
         .then(allNgo => res.json(allNgo))
         .catch((error) => console.log(error))
