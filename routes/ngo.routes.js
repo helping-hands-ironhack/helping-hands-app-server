@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const Ngo = require("../models/Ngo.model");
 const mongoose = require("mongoose");
 const Pax = require("../models/Pax.model");
@@ -26,7 +25,7 @@ router.get("/:ngoId", (req, res) => {
 });
 
 router.put("/:ngoId", (req, res) => {
-    Ngo.findByIdAndUpdate(req.body, params.ngoId)
+    Ngo.findByIdAndUpdate(req.params.ngoId, req.body, {new: true})
         .then(updatedNgo => res.json(updatedNgo))
         .catch((error) => console.log(error))
 });
