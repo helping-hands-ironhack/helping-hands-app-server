@@ -3,21 +3,19 @@ const router = express.Router();
 const Pax = require("../models/Pax.model");
 const Ngo = require("../models/Ngo.model");
 
-router.post("/", (req, res) => {
+router.post("/create/:id", (req, res, next) => {
     const { adults, children } = req.body;
-
     Pax.create({
         adults: adults,
         children: children,
-        ngo: req.params.ngoId
+        ngo: req.params.id
     })
         .then((newPax) => {
-            console.log(newPax)
             Ngo.findByIdAndUpdate(
-                { _id: req.params.ngoId },
-                { $push: { paxToHost: newPax._id}}
+                { _id: req.params.id },
+                { $push: { paxToHost: newPax._id } }
             )
-            .catch((err) => res.json(err))
+                .catch((err) => res.json(err))
         })
         .then((newpax) => res.json(newpax))
         .catch((err) => res.json(err));
