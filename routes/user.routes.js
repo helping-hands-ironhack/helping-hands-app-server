@@ -23,7 +23,6 @@ router.get("/users/:userId", (req, res, next) => {
   User.findById(userId)
     .populate("accommodations")
     .then((user) => {
-      console.log(user);
       res.status(200).json(user)
     })
     .catch((err) => res.json(err));
