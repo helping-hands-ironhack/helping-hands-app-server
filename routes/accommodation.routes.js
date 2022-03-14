@@ -25,8 +25,18 @@ router.get("/", (req, res, next) => {
         .catch((err) => res.json(err));
 });
 
+router.put("/:accommodationId/push-request/:paxId", (req, res) => {
+    Accommodation.findByIdAndUpdate(
+        { _id: req.params.accommodationId },
+        { $push: {requests: req.params.paxId } }
+    )
+        .then((results) => res.json(results))
+        .catch((err) => res.json(err))
+})
+
+
 router.post("/new/:userId/", (req, res, next) => {
-    const { capacity, description, rooms, imageUrl} = req.body
+    const { capacity, description, rooms, imageUrl } = req.body
 
 
     Accommodation.create({

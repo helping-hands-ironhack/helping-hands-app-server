@@ -6,7 +6,7 @@ const accommodationSchema = new Schema(
     rooms: { type: Number, required: true },
     description: { type: String, required: true },
     owner: { type: Schema.Types.ObjectId, ref: "User" },
-    resquests: [{ type: Schema.Types.ObjectId, ref: "Pax" }],
+    requests: [{ type: Schema.Types.ObjectId, ref: "Pax" }],
     isHosting: { type: Boolean, default: false },
     currentGuests: [{ type: Schema.Types.ObjectId, ref: "Pax" }],
     picture: {
