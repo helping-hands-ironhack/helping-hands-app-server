@@ -25,7 +25,7 @@ router.get("/:ngoId", (req, res) => {
 });
 
 router.put("/:ngoId", (req, res) => {
-    Ngo.findByIdAndUpdate(req.body, params.ngoId)
+    Ngo.findByIdAndUpdate(req.params.ngoId, req.body, {new: true})
         .then(updatedNgo => res.json(updatedNgo))
         .catch((error) => console.log(error))
 });
