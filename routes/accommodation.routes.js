@@ -10,6 +10,7 @@ const Pax = require("../models/Pax.model");
 router.get("/:accommodationId", (req, res) => {
     Accommodation.findById(req.params.accommodationId)
         .populate("owner")
+        .populate("requests")
         .then((accommodation) => res.json(accommodation))
         .catch((err) => res.json(err));
 });
@@ -26,6 +27,19 @@ router.get("/", (req, res, next) => {
         .catch((err) => res.json(err));
 });
 
+router.get("/findByUser/:id", (req, res) => {
+    Accommodation.find(
+        {
+            'owner': `${req.params.id}`, 
+            'requests.0': {
+              '$exists': true
+            }
+        }
+    )
+        .then((accommodations) => res.json(accommodations))
+        .catch((err) => res.json(err));
+})
+
 router.put("/:accommodationId/push-request/:paxId", (req, res) => {
     Accommodation.findByIdAndUpdate(
         req.params.accommodationId,
@@ -37,7 +51,7 @@ router.put("/:accommodationId/push-request/:paxId", (req, res) => {
                 $set: { isRequested: true }
             })
                 .then(__ => res.json(results))
-                
+
         })
         .catch((err) => res.json(err))
 })
