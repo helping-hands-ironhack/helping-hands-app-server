@@ -8,7 +8,7 @@ const userSchema = new Schema(
     email: {type: String, required:true},
     accommodations: [{type: Schema.Types.ObjectId, ref:'Accommodation'}],
 
-    picture: {type:String, default: "https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png"},
+    imageUrl: {type:String, default: "https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png"},
     isNgo: {type: Boolean, default: false}
 
   },
