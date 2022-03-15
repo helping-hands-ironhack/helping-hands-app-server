@@ -3,6 +3,13 @@ const router = express.Router();
 const Pax = require("../models/Pax.model");
 const Ngo = require("../models/Ngo.model");
 
+router.get("/", (req, res) => {
+    Pax.find()
+        .populate("ngo")
+        .then(allPax => res.json(allPax))
+        .catch((error) => console.log(error))
+});
+
 router.post("/create/:id", (req, res, next) => {
     const { adults, children } = req.body;
     Pax.create({
@@ -23,6 +30,7 @@ router.post("/create/:id", (req, res, next) => {
 
 router.get("/:paxId", (req, res) => {
     Pax.findById(req.params.paxId)
+        .populate("ngo")
         .then(pax => res.json(pax))
         .catch((error) => console.log(error))
 });
