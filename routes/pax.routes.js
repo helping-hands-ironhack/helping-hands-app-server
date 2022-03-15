@@ -36,7 +36,7 @@ router.get("/:paxId", (req, res) => {
 });
 
 router.put("/:paxId", (req, res) => {
-    Pax.findByIdAndUpdate(req.body, params.paxId)
+    Pax.findByIdAndUpdate(req.params.paxId, req.body)
         .then(updatedPax => res.json(updatedPax))
         .catch((error) => console.log(error))
 });

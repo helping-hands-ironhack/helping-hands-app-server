@@ -5,6 +5,8 @@ const paxSchema = new Schema(
         adults: { type: Number },
         children: { type: Number },
         isRequested: {type: Boolean, default: false},
+        isHosted: {type: Boolean, default: false},
+        hostedAt: { type: Schema.Types.ObjectId, ref: 'Accommodation' },
         ngo: { type: Schema.Types.ObjectId, ref: 'Ngo' }
     },
     {
