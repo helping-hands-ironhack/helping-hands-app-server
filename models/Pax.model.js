@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const paxSchema = new Schema(
     {
+        title: {type: String},
         adults: { type: Number },
         children: { type: Number },
         isRequested: {type: Boolean, default: false},

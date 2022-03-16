@@ -11,8 +11,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/create/:id", (req, res, next) => {
-    const { adults, children } = req.body;
+    const { title, adults, children } = req.body;
     Pax.create({
+        title: title,
         adults: adults,
         children: children,
         ngo: req.params.id
