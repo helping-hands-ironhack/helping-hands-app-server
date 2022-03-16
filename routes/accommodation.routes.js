@@ -24,7 +24,10 @@ router.delete("/:accommodationId", (req, res) => {
 
 router.get("/", (req, res, next) => {
     Accommodation.find()
-        .then((allaccommodations) => res.json(allaccommodations))
+        .populate("owner")
+        .then((allaccommodations) =>{
+            console.log(allaccommodations)
+            res.json(allaccommodations)})
         .catch((err) => res.json(err));
 });
 
