@@ -17,6 +17,7 @@ router.get("/:accommodationId", (req, res) => {
 
 router.delete("/:accommodationId", (req, res) => {
     Accommodation.findByIdAndDelete(req.params.accommodationId)
+        .populate("requests")
         .then((accommodation) => res.json(accommodation))
         .catch((err) => res.json(err));
 });
