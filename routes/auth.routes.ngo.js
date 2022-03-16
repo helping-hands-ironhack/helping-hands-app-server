@@ -14,7 +14,7 @@ const {isAuthenticated} = require("../middleware/jwt.middleware")
 
 
 router.post("/signup", (req, res) => {
-  const { password, name, cif, email } = req.body;
+  const { password, name, cif, email, description } = req.body;
 
   if (!email) {
     return res
@@ -42,6 +42,7 @@ router.post("/signup", (req, res) => {
           name: name,
           cif: cif,
           email: email,
+          description: description
         });
       })
       .catch((error) => {

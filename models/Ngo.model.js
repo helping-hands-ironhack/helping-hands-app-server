@@ -4,6 +4,7 @@ const { array } = require("../config/cloudinary.config");
 const ngoSchema = new Schema(
     {
         name: { type: String, required: true },
+        description: { type: String, required: true },
         email: { type: String, required: true },
         cif: { type: String, required: true },
         password: { type: String, required: true },

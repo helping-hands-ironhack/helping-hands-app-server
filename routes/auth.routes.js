@@ -38,9 +38,9 @@ router.get("/session", (req, res) => {
     });
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("/signup", (req, res) => {
   const { password, firstName, lastName, email } = req.body;
-
+  console.log("BOOOOOOOOOOODU===============>", req.body)
   if (!email) {
     return res
       .status(400)
