@@ -101,12 +101,6 @@ router.post("/login", (req, res, next) => {
           res.status(200).json({ authToken: authToken });
 
         }
-
-        // Session.create({ user: user._id, createdAt: Date.now() }).then(
-        //   (session) => {
-        //     return res.json({ user, accessToken: session._id });
-        //   }
-        // );
       });
     })
 
@@ -114,7 +108,6 @@ router.post("/login", (req, res, next) => {
       // in this case we are sending the error handling to the error handling middleware that is defined in the error handling file
       // you can just as easily run the res.status that is commented out below
       next(err);
-      // return res.status(500).render("login", { errorMessage: err.message });
     });
 });
 
