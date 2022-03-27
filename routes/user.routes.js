@@ -5,14 +5,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User.model");
 const Accommodation = require("../models/Accommodation.model");
 
-router.get("/users", (req, res, next) => {
-  User.find()
-    .populate("accommodations")
-    .then((allUsers) => res.json(allUsers))
-    .catch((err) => res.json(err));
-});
-
-router.get("/users/:userId", (req, res, next) => {
+router.get("/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -28,7 +21,7 @@ router.get("/users/:userId", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-router.put("/users/:userId", (req, res, next) => {
+router.put("/:userId", (req, res, next) => {
   const { userId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -41,6 +34,11 @@ router.put("/users/:userId", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-
+router.get("/", (req, res, next) => {
+  User.find()
+    .populate("accommodations")
+    .then((allUsers) => res.json(allUsers))
+    .catch((err) => res.json(err));
+});
 
 module.exports = router;

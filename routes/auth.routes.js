@@ -19,24 +19,6 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 const {isAuthenticated} = require("../middleware/jwt.middleware");
 
-router.get("/session", (req, res) => {
-  // we dont want to throw an error, and just maintain the user as null
-  if (!req.headers.authorization) {
-    return res.json(null);
-  }
-
-  // accessToken is being sent on every request in the headers
-  const accessToken = req.headers.authorization;
-
-  Session.findById(accessToken)
-    .populate("user")
-    .then((session) => {
-      if (!session) {
-        return res.status(404).json({ errorMessage: "Session does not exist" });
-      }
-      return res.status(200).json(session);
-    });
-});
 
 router.post("/signup", (req, res) => {
   const { password, firstName, lastName, email } = req.body;

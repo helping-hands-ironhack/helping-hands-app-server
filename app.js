@@ -27,7 +27,7 @@ const ngoRoutes = require("./routes/ngo.routes");
 app.use("/api/ngo", ngoRoutes);
 
 const userRoutes = require("./routes/user.routes")
-app.use("/api", userRoutes)
+app.use("/api/users", userRoutes)
 
 const accommodationRoutes = require("./routes/accommodation.routes")
 app.use("/api/accommodations", accommodationRoutes)

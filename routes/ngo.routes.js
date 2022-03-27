@@ -4,19 +4,6 @@ const Ngo = require("../models/Ngo.model");
 const mongoose = require("mongoose");
 const Pax = require("../models/Pax.model");
 
- router.get("/", (req, res) => {
-    Ngo.find()
-        .populate("paxToHost")
-        .then(allNgo => res.json(allNgo))
-        .catch((error) => console.log(error))
-});
-
-router.post("/", (req, res) => {
-    Ngo.create(req.body)
-        .then(newNgo => res.json(newNgo))
-        .catch((error) => console.log(error))
-});
-
 router.get("/:ngoId", (req, res) => {
     Ngo.findById(req.params.ngoId)
         .populate("paxToHost")
@@ -33,6 +20,19 @@ router.put("/:ngoId", (req, res) => {
 router.delete("/:ngoId", (req, res) => {
     Ngo.findByIdAndDelete(req.params.ngoId)
         .then((deletedNgo) => res.json(deletedNgo))
+        .catch((error) => console.log(error))
+});
+
+router.get("/", (req, res) => {
+    Ngo.find()
+        .populate("paxToHost")
+        .then(allNgo => res.json(allNgo))
+        .catch((error) => console.log(error))
+});
+
+router.post("/", (req, res) => {
+    Ngo.create(req.body)
+        .then(newNgo => res.json(newNgo))
         .catch((error) => console.log(error))
 });
 

@@ -3,13 +3,6 @@ const router = express.Router();
 const Pax = require("../models/Pax.model");
 const Ngo = require("../models/Ngo.model");
 
-router.get("/", (req, res) => {
-    Pax.find()
-        .populate("ngo")
-        .then(allPax => res.json(allPax))
-        .catch((error) => console.log(error))
-});
-
 router.post("/create/:id", (req, res, next) => {
     const { title, adults, children } = req.body;
     Pax.create({
@@ -45,6 +38,13 @@ router.put("/:paxId", (req, res) => {
 router.delete("/:paxId", (req, res) => {
     Pax.findByIdAndDelete(req.params.paxId)
         .then((deletedPax) => res.json(deletedPax))
+        .catch((error) => console.log(error))
+});
+
+router.get("/", (req, res) => {
+    Pax.find()
+        .populate("ngo")
+        .then(allPax => res.json(allPax))
         .catch((error) => console.log(error))
 });
 
